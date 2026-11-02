@@ -2,6 +2,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const studentRoutes = require('./routes/studentRoutes');
 
@@ -34,6 +35,20 @@ app.get('/', (req, res) => {
       deleteStudent: 'DELETE /api/students/:id',
     },
   });
+});
+
+// ------------------------------------------
+// Database Connection Guard for API Routes
+// ------------------------------------------
+app.use('/api/students', (req, res, next) => {
+  // readyState: 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: 'Database is not connected. Please add your MongoDB Atlas connection string in .env and make sure your cluster allows connections.',
+    });
+  }
+  next();
 });
 
 // ------------------------------------------

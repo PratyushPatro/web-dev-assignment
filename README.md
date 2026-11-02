@@ -18,6 +18,7 @@ webdev-assignment/
 │   └── Student.js            # Mongoose Schema & Model definition
 ├── routes/
 │   └── studentRoutes.js      # Express router mapping HTTP routes to controllers
+├── screenshots/              # Postman API testing screenshots
 ├── .env                      # Secret environment variables (ignored by Git)
 ├── .env.example              # Template for environment variables
 ├── .gitignore                # Prevents node_modules and .env from being tracked
