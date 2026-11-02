@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (sensitive credentials)
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Postman local app runtime data
+.postman/
+postman/
+
+# OS generated files
+.DS_Store
+Thumbs.db

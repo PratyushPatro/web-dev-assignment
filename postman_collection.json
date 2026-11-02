@@ -1,0 +1,192 @@
+{
+  "info": {
+    "name": "Student CRUD API",
+    "description": "Complete Postman collection for testing the Student CRUD REST API built with Node.js, Express, and MongoDB Atlas.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "studentId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check (Root API)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        },
+        "description": "Check if the server is up and view available endpoints."
+      },
+      "response": []
+    },
+    {
+      "name": "2. Create Student (POST)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Automatically capture student ID for subsequent tests",
+              "if (pm.response.code === 201) {",
+              "    const json = pm.response.json();",
+              "    if (json.data && json.data._id) {",
+              "        pm.collectionVariables.set('studentId', json.data._id);",
+              "        console.log('Saved studentId into collection variables:', json.data._id);",
+              "    }",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Alice Johnson\",\n  \"email\": \"alice.johnson@example.com\",\n  \"course\": \"Computer Science\",\n  \"age\": 21\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Add a new student to MongoDB Atlas. Note: Running this will automatically save the generated _id to the collection variable {{studentId}}."
+      },
+      "response": []
+    },
+    {
+      "name": "3. Get All Students (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students"]
+        },
+        "description": "Fetch a list of all students."
+      },
+      "response": []
+    },
+    {
+      "name": "4. Get Student by ID (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/:id",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{studentId}}",
+              "description": "Automatically populated with {{studentId}} after running Request 2, or paste any 24-character hex ID"
+            }
+          ]
+        },
+        "description": "Retrieve details of a single student by their MongoDB _id."
+      },
+      "response": []
+    },
+    {
+      "name": "5. Update Student - PUT",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Alice J. Walker\",\n  \"course\": \"Data Science & AI\",\n  \"age\": 22\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students/:id",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{studentId}}",
+              "description": "Automatically populated with {{studentId}}, or paste student _id"
+            }
+          ]
+        },
+        "description": "Update one or more fields of an existing student using PUT."
+      },
+      "response": []
+    },
+    {
+      "name": "6. Partial Update Student - PATCH",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"age\": 23\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/students/:id",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{studentId}}",
+              "description": "Automatically populated with {{studentId}}, or paste student _id"
+            }
+          ]
+        },
+        "description": "Partially update specific fields of a student using PATCH."
+      },
+      "response": []
+    },
+    {
+      "name": "7. Delete Student (DELETE)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/students/:id",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "students", ":id"],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{studentId}}",
+              "description": "Automatically populated with {{studentId}}, or paste student _id"
+            }
+          ]
+        },
+        "description": "Delete a student document from MongoDB Atlas."
+      },
+      "response": []
+    }
+  ]
+}
